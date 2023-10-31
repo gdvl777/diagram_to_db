@@ -13,3 +13,5 @@ CREATE TABLE
         name VARCHAR(50) NOT NULL,
         date_of_birth DATE NOT NULL
     );
+
+CREATE INDEX idx_medical_histories_patient_id ON medical_histories (patient_id);
