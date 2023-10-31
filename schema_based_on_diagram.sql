@@ -16,23 +16,26 @@ CREATE TABLE
 
 CREATE INDEX idx_medical_histories_patient_id ON medical_histories (patient_id);
 
-CREATE TABLE invoices (
-    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    total_amount DECIMAL NOT NULL,
-    generated_at TIMESTAMP NOT NULL,
-    payed_at TIMESTAMP NOT NULL,
-    medical_history_id INT NOT NULL,
-    CONSTRAINT fk_medical_histories FOREIGN KEY (medical_history_id) REFERENCES medical_histories(id)
-);
+CREATE TABLE
+    invoices (
+        id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        total_amount DECIMAL NOT NULL,
+        generated_at TIMESTAMP NOT NULL,
+        payed_at TIMESTAMP NOT NULL,
+        medical_history_id INT NOT NULL,
+        CONSTRAINT fk_medical_histories FOREIGN KEY (medical_history_id) REFERENCES medical_histories (id)
+    );
 
-CREATE TABLE invoice_items (
-    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    unit_price DECIMAL NOT NULL,
-    quantity INT NOT NULL,
-    total_price DECIMAL NOT NULL,
-    invoice_id INT NOT NULL,
-    treatment_id INT NOT NULL,
-    CONSTRAINT fk_invoices FOREIGN KEY (invoice_id) REFERENCES invoices(id),
-    CONSTRAINT fk_treatments FOREIGN KEY (treatment_id) REFERENCES treatments(id)
-);
+CREATE INDEX idx_invoices_medical_history_id ON invoices (medical_history_id);
 
+CREATE TABLE
+    invoice_items (
+        id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        unit_price DECIMAL NOT NULL,
+        quantity INT NOT NULL,
+        total_price DECIMAL NOT NULL,
+        invoice_id INT NOT NULL,
+        treatment_id INT NOT NULL,
+        CONSTRAINT fk_invoices FOREIGN KEY (invoice_id) REFERENCES invoices (id),
+        CONSTRAINT fk_treatments FOREIGN KEY (treatment_id) REFERENCES treatments (id)
+    );
