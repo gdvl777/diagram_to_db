@@ -39,3 +39,15 @@ CREATE TABLE
         CONSTRAINT fk_invoices FOREIGN KEY (invoice_id) REFERENCES invoices (id),
         CONSTRAINT fk_treatments FOREIGN KEY (treatment_id) REFERENCES treatments (id)
     );
+
+CREATE TABLE
+    treatments (
+        id INT GENERATED ALWAYS AS IDENTITY,
+        type VARCHAR(20) NOT NULL,
+        name VARCHAR(50) NOT NULL,
+        PRIMARY KEY (id)
+    );
+
+CREATE INDEX idx_invoice_items_invoice_id ON invoice_items (invoice_id);
+
+CREATE INDEX idx_invoice_items_treatment_id ON invoice_items (treatment_id);
