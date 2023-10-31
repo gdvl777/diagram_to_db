@@ -1,17 +1,17 @@
 CREATE TABLE
+    patients (
+        id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+        name VARCHAR(50) NOT NULL,
+        date_of_birth DATE NOT NULL
+    );
+
+CREATE TABLE
     medical_histories (
         id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
         admitted_at TIMESTAMP NOT NULL,
         patient_id INT NOT NULL,
         status VARCHAR(20) NOT NULL,
         CONSTRAINT fk_patient_id FOREIGN KEY (patient_id) REFERENCES patients (id) ON DELETE CASCADE
-    );
-
-CREATE TABLE
-    patients (
-        id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-        name VARCHAR(50) NOT NULL,
-        date_of_birth DATE NOT NULL
     );
 
 CREATE INDEX idx_medical_histories_patient_id ON medical_histories (patient_id);
@@ -29,6 +29,14 @@ CREATE TABLE
 CREATE INDEX idx_invoices_medical_history_id ON invoices (medical_history_id);
 
 CREATE TABLE
+    treatments (
+        id INT GENERATED ALWAYS AS IDENTITY,
+        type VARCHAR(20) NOT NULL,
+        name VARCHAR(50) NOT NULL,
+        PRIMARY KEY (id)
+    );
+
+CREATE TABLE
     invoice_items (
         id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         unit_price DECIMAL NOT NULL,
@@ -40,13 +48,6 @@ CREATE TABLE
         CONSTRAINT fk_treatments FOREIGN KEY (treatment_id) REFERENCES treatments (id)
     );
 
-CREATE TABLE
-    treatments (
-        id INT GENERATED ALWAYS AS IDENTITY,
-        type VARCHAR(20) NOT NULL,
-        name VARCHAR(50) NOT NULL,
-        PRIMARY KEY (id)
-    );
 
 CREATE INDEX idx_invoice_items_invoice_id ON invoice_items (invoice_id);
 
